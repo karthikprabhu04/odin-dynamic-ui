@@ -1,0 +1,11 @@
+{
+  "name": "dropdown-toggle-js",
+  "version": "1.0.0",
+  "description": "Reusable dropdown toggle menu module",
+  "main": "src/index.js",
+  "type": "module",
+  "keywords": ["dropdown", "menu", "toggle", "ui"],
+  "author": "Your Name",
+  "license": "MIT",
+  "files": ["src"]
+}
