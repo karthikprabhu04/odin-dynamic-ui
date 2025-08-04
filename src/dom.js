@@ -5,56 +5,60 @@ import Image3 from "./img/Image 3.avif"
 const imageBox = document.querySelector(".imageBox");
 const prevBtn = document.querySelector(".prevBtn");
 const nextBtn = document.querySelector(".nextBtn");
-
 const dots = document.querySelectorAll(".dot");
 
+const images = [Image1, Image2, Image3]
+let index = 0;
+let img;
 
 export function setup() {
-    const images = [Image1, Image2, Image3]
-    let index = 0
-    const img = document.createElement("img");
-    img.src = Image1;
+    createImageElement();
+    addEventListeners();
+    startAutoSlide();
+    updateUI();
+}
+
+function createImageElement() {
+    img = document.createElement("img");
+    img.src = images[index];
     imageBox.appendChild(img);
-    nextBtn.addEventListener("click", () => {
-        if (index === images.length - 1) {
-            index = 0
-        } else {
-            index++;
-        }
-        img.src = images[index];
-        changeDots(index)
-    })
-    prevBtn.addEventListener("click", () => {
-        if (index === 0) {
-            index = images.length - 1
-        } else {
-            index--;
-        }
-        img.src = images[index];
-        changeDots(index)
-    })
+}
+
+function addEventListeners() {
+    nextBtn.addEventListener("click", showNextImage);
+    prevBtn.addEventListener("click", showPrevImage);
+
     dots.forEach((dot, number) => {
         dot.addEventListener("click", () => {
-            index = number
-            img.src = images[index];
-            changeDots(index)
+            index = number;
+            updateUI();
         })
     })
+}
 
-    // Auto-slide every 5 seconds
+function showNextImage() {
+    index = (index + 1) % images.length;
+    updateUI();
+}
+
+function showPrevImage() {
+    index = (index - 1 + images.length) % images.length;
+    updateUI()
+}
+
+function startAutoSlide() {
     setInterval(() => {
-        index = (index + 1) % images.length;
-        img.src = images[index];
-        changeDots();
+        showNextImage();
     }, 5000)
 }
 
-function changeDots(index) {
+function updateUI() {
+    img.src = images[index];
+    updateDots();
+}
+
+function updateDots() {
     dots.forEach((dot, number) => {
-    if (number === index) {
-        dot.classList.add("active");
-    } else {
-        dot.classList.remove("active")
-    }
+        dot.classList.toggle("active", number === index)
     })
 }
